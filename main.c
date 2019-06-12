@@ -1,15 +1,16 @@
 /* ------------------------------------------------
  * Program		: Huffman_Coding.c
  * Deskripsi	: 
- * Nama			: - Dewanto Joyo Pramono	(181524005)
- 				  - 
+ * Nama			: - Dewanto Joyo Pramono		(181524005)
+ 				  - Mufqi Uwais Nastiar Salim	(181524017)
  * Tanggal/versi: 00-06-2019/v1.0
  * Compiler		: TDM-GCC 4.9.2 64-bit Release
  --------------------------------------------------*/
 
-#include<stdio.h>
-#include<windows.h>
-#include"LinkedList.h"
+#include <stdio.h>
+#include <string.h>
+#include "LinkedList.h"
+#include "BTree.h"
 
 #define INPUTDATA 1
 #define SHOWTREE 2
@@ -47,7 +48,7 @@ int main(){
 				break;
 			} //end Case 2
 			case SHOWCODE:{
-				printf("Test s;ect 3");
+				printf("Test select 3");
 				break;
 			} //end Case 3
 			case EXIT:{
