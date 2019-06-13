@@ -12,24 +12,25 @@
  
 #include <stdlib.h>
 #define Nil NULL
-#define InfoT(P) (P)->info
+#define Prob(P) (P)->prob
+#define Symbol(P) (P)->symbol
 #define Left(P)  (P)->left
 #define Parent(P) (P)->parent
 #define Right(P) (P)->right
-#define Count(P) (P)->count
+#define Status(P) (P)->status
 
-typedef int infotypeT;
 typedef struct tElmtNode *addressT;
 typedef struct tElmtNode {
-	infotypeT info;
+	float prob;
+	char symbol;
+	addressT parent;
 	addressT left;
 	addressT right;
-	int count;
+	int status;
 } ElmtNode;
 typedef addressT BinTree;
 
-addressT AlokasiT(infotypeT X);
+addressT AlokasiT(char X, int prob);
 
-int IsEmpty(BinTree P);
 
 #endif

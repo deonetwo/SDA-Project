@@ -16,7 +16,7 @@
 #define SHOWTREE 2
 #define SHOWCODE 3
 #define EXIT 4
-
+/*
 int main(){
 	int MenuSelect;
 	char Input[100];
@@ -57,7 +57,7 @@ int main(){
 		} //end Switch
 	} //end While
 } //end Main
-
+*/
 int MainMenu(){
 	int Pilihan;
 	
