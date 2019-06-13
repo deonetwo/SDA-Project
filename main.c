@@ -16,9 +16,9 @@
 #define SHOWTREE 2
 #define SHOWCODE 3
 #define EXIT 4
-/*
+
 int main(){
-	int MenuSelect;
+	int MenuSelect,i;
 	char Input[100];
 	
 	List DataHuruf;
@@ -34,12 +34,19 @@ int main(){
 				printf("Input kata/kalimat:\n"); 
 				scanf(" %[^\n]s",Input); // Input data dari keyboard
 				//Test
+				/*
 				int i;
 				for(i=0;i<strlen(Input);i++){
 					printf("%c\n",Input[i]);
 				}
 				printf("finish\n");
+				*/
 				//End Test
+				for(i=0;i<strlen(Input);i++){
+					InsertHuruf(&DataHuruf,Input[i]);
+				}
+				CreateProbabilty(&DataHuruf, strlen(Input));
+				PrintInfoList(DataHuruf); // test
 				system("pause");
 				break;
 			} //end Case 1
@@ -57,7 +64,7 @@ int main(){
 		} //end Switch
 	} //end While
 } //end Main
-*/
+
 int MainMenu(){
 	int Pilihan;
 	

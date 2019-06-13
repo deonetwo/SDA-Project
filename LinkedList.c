@@ -11,6 +11,7 @@
 #define List_C
 
 #include<stdio.h>
+#include<stdbool.h>
 #include"LinkedList.h"
 
 /** Prototype */
@@ -32,6 +33,69 @@ void CreateList(List *L){
 	First(*L) = NULL;
 }
 
+/* Penambahan node pada list */
+void InsertNode(List *L, address NewNode){
+	if(isEmpty(*L)){ //List Kosong
+		First(*L) = NewNode;
+	}
+	else{ //List tidak kosong
+		address PNav;
+		PNav = First(*L);
+		while(Next(PNav) != NULL){ 
+			PNav = Next(PNav);
+		} //Pointer berada di ujung list
+		Next(PNav) = NewNode;
+	}
+}
+
+void InsertHuruf(List *L, infotype Huruf){
+	bool isDone = false; //Proses belum selesai
+	if(isEmpty(*L)){ //List Kosong
+		First(*L) = Alokasi(Huruf);
+	}
+	else{ //List tidak kosong
+		address PNav;
+		PNav = First(*L);
+		while(PNav != NULL){ //Mencari huruf yang sama
+			if(Info(PNav) == Huruf){
+				TotalInfo(PNav) += 1;
+				PNav = NULL;
+				isDone = true; //Proses selesai
+			}
+			else{
+				PNav = Next(PNav);
+			}
+		}
+		if(!isDone){ //Bila huruf tidak ditemukan
+			InsertNode(L, Alokasi(Huruf)); //Membuat node baru dalam list
+		}
+	}
+}
+
+/* Validasi List */
+bool isEmpty(List L){
+	return L.first == NULL;
+}
+
+/* (print info) */
+void PrintInfoList(List L){
+	address PNav;
+	PNav = First(L);
+	while(PNav != NULL){
+		printf("Huruf: %c \nProb: %.2f\n",Info(PNav),TotalInfo(PNav));
+		PNav = Next(PNav);
+	}
+}
+
+/* (create prob) */
+void CreateProbabilty(List *L, float Jumlah){
+	address PNav;
+	PNav = First(*L);
+	while(PNav != NULL){
+		TotalInfo(PNav) = TotalInfo(PNav)/Jumlah*100;
+		PNav = Next(PNav);
+	}
+}
 
 
 #endif

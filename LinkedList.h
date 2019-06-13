@@ -11,6 +11,7 @@
 #define List_H 
 
 #include<stdlib.h>
+#include<stdbool.h>
 
 #define Info(P) (P)->huruf
 #define TotalInfo(P) (P)->jumlah
@@ -22,7 +23,7 @@ typedef char infotype;
 typedef struct Node *address;
 typedef struct Node{
 	infotype huruf;
-	int jumlah;
+	float jumlah;
 	address next;
 }Node;
 
@@ -42,5 +43,15 @@ void CreateList(List *L);
 
 /* Penambahan node pada list */
 void InsertNode(List *L, address NewNode);
+void InsertHuruf(List *L, infotype Huruf);
+
+/* Validasi List */
+bool isEmpty(List L);
+
+/* (print info) */
+void PrintInfoList(List L);
+
+/* (create prob) */
+void CreateProbabilty(List *L, float Jumlah);
 
 #endif
