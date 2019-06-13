@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "BTree.h"
 
-addressT AlokasiT(char X, int prob)
+addressT AlokasiT(char X, float prob)
 {   /* menghasilkan address hasil alokasi sebuah Node */
     /* Jika alokasi berhasil, maka address tidak Nil  */
     /* Info(P)=X, Left(P)=Nil,Right(P)=Nil; Count(P)=0 */	

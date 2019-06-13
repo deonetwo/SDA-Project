@@ -30,7 +30,7 @@ typedef struct tElmtNode {
 } ElmtNode;
 typedef addressT BinTree;
 
-addressT AlokasiT(char X, int prob);
+addressT AlokasiT(char X, float prob);
 
 
 #endif
