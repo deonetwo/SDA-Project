@@ -14,7 +14,7 @@ int countSymbol(addressT *Table);
 
 int countFilledArray(addressT *Table);
 
-void addNewNode(addressT *Table, float newProb, int newIndex);
+int insertNode(addressT *Table, float newProb);
 
 void connectToTree(addressT *Table, BinTree *newTree);
 

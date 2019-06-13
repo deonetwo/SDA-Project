@@ -34,6 +34,27 @@ addressT AlokasiT(char X, float prob)
     return P;
 }
 
+void initiateTree(BinTree *tree){
+	(*tree) = AlokasiT(0, 0);
+}
+
+void printTree(BinTree P)
+{   /* I.S  : P terdefinisi                          	*/
+    /* F.S  : semua simpul P sudah ditulis / preorder	*/
+	if(P==Nil)
+	{
+	  printf("[ ]");	
+	} else  {
+		    printf("%g	",Prob(P));
+		    if(Left(P)!=Nil){
+		    	printTree(Left(P));
+			}
+		    if(Right(P)!=Nil){
+		    	printTree(Right(P));
+			}
+		}
+}
+
 
 
 #endif

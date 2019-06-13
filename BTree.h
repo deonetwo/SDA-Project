@@ -32,5 +32,7 @@ typedef addressT BinTree;
 
 addressT AlokasiT(char X, float prob);
 
+void PrintTree(BinTree P);
+
 
 #endif
