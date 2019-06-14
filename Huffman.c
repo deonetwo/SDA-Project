@@ -78,13 +78,18 @@ void connectToTree(addressT *Table, BinTree *newTree){
 	float parentProb;
 	indexMinProb1 = searchMinProb(&(*Table));
 	indexMinProb2 = searchMinProb(&(*Table));
-	parentProb = Table[indexMinProb1]->prob + Table[indexMinProb2]->prob;
-	indexParentProb = insertNode(&(*Table), parentProb);
-	Table[indexParentProb]->left = Table[indexMinProb1];
-	Table[indexParentProb]->right = Table[indexMinProb2];
-	Table[indexMinProb1]->parent = Table[indexParentProb];
-	Table[indexMinProb2]->parent = Table[indexParentProb];
-	(*newTree) = Table[indexParentProb];
+	if(indexMinProb2==-1){
+		(*newTree) = Table[indexMinProb1];
+	}
+	else{
+		parentProb = Table[indexMinProb1]->prob + Table[indexMinProb2]->prob;
+		indexParentProb = insertNode(&(*Table), parentProb);
+		Table[indexParentProb]->left = Table[indexMinProb1];
+		Table[indexParentProb]->right = Table[indexMinProb2];
+		Table[indexMinProb1]->parent = Table[indexParentProb];
+		Table[indexMinProb2]->parent = Table[indexParentProb];
+		(*newTree) = Table[indexParentProb];
+	}
 }
 
 char* concat(const char *s1, const char *s2)
@@ -100,43 +105,60 @@ char* concat(const char *s1, const char *s2)
 void produceCode(addressT *Table){
 	int totalSymbol, i = 0;
 	float currentProb;
+	char currentSymbol;
 	addressT pcur;
 	totalSymbol = countSymbol(&(*Table));
-	while(i<totalSymbol){
-		pcur = Table[i];
-		currentProb = Table[i]->prob;
-		while(pcur!=Nil){
-			if(pcur->prob!=100){
-				currentProb = pcur->prob;
-				if(currentProb==pcur->parent->left->prob){
-					if(strcmp(Table[i]->code, "NONE")==0){
-						Table[i]->code = "0";
-					}
-					else{
-						Table[i]->code = concat("0", Table[i]->code);
-					}
-				}
-				else{
-					if(strcmp(Table[i]->code, "NONE")==0){
-						Table[i]->code = "1";
-					}
-					else{
-						
-						Table[i]->code = concat("1", Table[i]->code);
-					}
-				}
-			}
-			pcur = pcur->parent;
-		}
-		i++;
+	if(totalSymbol==1){
+		Table[i]->code = "0";
 	}
+	else{
+		while(i<totalSymbol){
+			pcur = Table[i];
+			currentProb = Table[i]->prob;
+			currentSymbol = Table[i]->symbol;
+			while(pcur!=Nil){
+				if(pcur->prob!=100){
+					currentProb = pcur->prob;
+					pcur->symbol = currentSymbol;
+					if(currentProb==pcur->parent->left->prob&&currentSymbol==pcur->parent->left->symbol){
+						if(strcmp(Table[i]->code, "NONE")==0){
+							Table[i]->code = "0";
+						}
+						else{
+							Table[i]->code = concat("0", Table[i]->code);
+						}
+					}
+					else{
+						if(strcmp(Table[i]->code, "NONE")==0){
+							Table[i]->code = "1";
+						}
+						else{
+							
+							Table[i]->code = concat("1", Table[i]->code);
+						}
+					}
+				}
+				if(pcur!=Table[i]){
+					pcur->symbol = 0;
+				}
+				pcur = pcur->parent;
+			}
+			i++;
+		}
+	}
+	
 }
 
 void executeHuffman(addressT *Table, BinTree *newTree){
 	int i = 1;
-	while(i < (( countSymbol(&(*Table)) * 2 ) - countSymbol(&(*Table)))){
+	if(countSymbol(&(*Table))==1){
 		connectToTree(&(*Table), &(*newTree));
-		i++;		
+	}
+	else{
+		while(i < (( countSymbol(&(*Table)) * 2 ) - countSymbol(&(*Table)))){
+			connectToTree(&(*Table), &(*newTree));
+			i++;		
+		}
 	}
 	produceCode(&(*Table));
 }
