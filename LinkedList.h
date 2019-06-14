@@ -54,4 +54,7 @@ void PrintInfoList(List L);
 /* (create prob) */
 void CreateProbabilty(List *L, float Jumlah);
 
+/* Destructor */
+void DeleteAllNode(List *L);
+
 #endif

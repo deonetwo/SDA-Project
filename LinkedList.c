@@ -97,5 +97,16 @@ void CreateProbabilty(List *L, float Jumlah){
 	}
 }
 
+/* Destructor */
+void DeleteAllNode(List *L){
+	address PNav, DeleteNode;
+	PNav = First(*L);
+	First(*L) = NULL;
+	while(PNav != NULL){
+		DeleteNode = PNav;
+		PNav = Next(PNav);
+		free(DeleteNode);
+	}
+}
 
 #endif

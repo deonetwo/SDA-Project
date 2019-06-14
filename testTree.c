@@ -3,7 +3,7 @@
 #include "LinkedList.h"
 #include "BTree.h"
 #include "Huffman.h"
-
+/*
 int main(){
 	int ArrayLength = 26;
 	int jumlah = 0, i = 0;
@@ -45,6 +45,6 @@ int main(){
 	/*T[0]->parent = T[5];
 	if(T[5]->symbol==0){
 		printf("%g",T[0]->parent->prob);
-	}*/
+	}
 	return 0;
-}
+}*/
