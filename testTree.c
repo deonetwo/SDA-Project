@@ -13,11 +13,13 @@ int main(){
 	
 	initiateTable(T, ArrayLength);
 	initiateTree(&Tree);
-	T[0] = AlokasiT('a', 0.12);
-	T[1] = AlokasiT('b', 0.40);
-	T[2] = AlokasiT('c', 0.15);
-	T[3] = AlokasiT('d', 0.08);
-	T[4] = AlokasiT('e', 0.25);
+	T[0] = AlokasiT('a', 18);
+	T[1] = AlokasiT('e', 4);
+	T[2] = AlokasiT('k', 30);
+	T[3] = AlokasiT('l', 3);
+	T[4] = AlokasiT('n', 20);
+	T[5] = AlokasiT('b', 10);
+	T[6] = AlokasiT('y', 15);
 	printf("Tabel awal sebelum operasi huffman dijalankan\n");
 	printArray(T);
 	printf("\n\n");

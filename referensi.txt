@@ -1,0 +1,2 @@
+referensi:
+function concat : https://stackoverflow.com/questions/8465006/how-do-i-concatenate-two-strings-in-c/8465083

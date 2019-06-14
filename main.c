@@ -16,7 +16,7 @@
 #define SHOWTREE 2
 #define SHOWCODE 3
 #define EXIT 4
-
+/*
 int main(){
 	int MenuSelect,i;
 	char Input[100];
@@ -40,7 +40,7 @@ int main(){
 					printf("%c\n",Input[i]);
 				}
 				printf("finish\n");
-				*/
+				
 				//End Test
 				for(i=0;i<strlen(Input);i++){
 					InsertHuruf(&DataHuruf,Input[i]);
@@ -64,7 +64,7 @@ int main(){
 		} //end Switch
 	} //end While
 } //end Main
-
+*/
 int MainMenu(){
 	int Pilihan;
 	

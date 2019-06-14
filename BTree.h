@@ -18,7 +18,9 @@
 #define Parent(P) (P)->parent
 #define Right(P) (P)->right
 #define Status(P) (P)->status
+#define Code(P) (P)->code
 
+typedef char *Code;
 typedef struct tElmtNode *addressT;
 typedef struct tElmtNode {
 	float prob;
@@ -27,6 +29,7 @@ typedef struct tElmtNode {
 	addressT left;
 	addressT right;
 	int status;
+	Code code;
 } ElmtNode;
 typedef addressT BinTree;
 

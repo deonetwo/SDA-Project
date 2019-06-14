@@ -87,20 +87,66 @@ void connectToTree(addressT *Table, BinTree *newTree){
 	(*newTree) = Table[indexParentProb];
 }
 
+char* concat(const char *s1, const char *s2)
+{
+    char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
+    // in real code you would check for errors in malloc here
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
+}
+
+
+void produceCode(addressT *Table){
+	int totalSymbol, i = 0;
+	float currentProb;
+	addressT pcur;
+	totalSymbol = countSymbol(&(*Table));
+	while(i<totalSymbol){
+		pcur = Table[i];
+		currentProb = Table[i]->prob;
+		while(pcur!=Nil){
+			if(pcur->prob!=100){
+				currentProb = pcur->prob;
+				if(currentProb==pcur->parent->left->prob){
+					if(strcmp(Table[i]->code, "NONE")==0){
+						Table[i]->code = "0";
+					}
+					else{
+						Table[i]->code = concat("0", Table[i]->code);
+					}
+				}
+				else{
+					if(strcmp(Table[i]->code, "NONE")==0){
+						Table[i]->code = "1";
+					}
+					else{
+						
+						Table[i]->code = concat("1", Table[i]->code);
+					}
+				}
+			}
+			pcur = pcur->parent;
+		}
+		i++;
+	}
+}
+
 void executeHuffman(addressT *Table, BinTree *newTree){
 	int i = 1;
 	while(i < (( countSymbol(&(*Table)) * 2 ) - countSymbol(&(*Table)))){
 		connectToTree(&(*Table), &(*newTree));
 		i++;		
 	}
+	produceCode(&(*Table));
 }
 
 void printArray(addressT *Table){
 	int filledArray, i = 0;
 	filledArray = countFilledArray(&(*Table));
-	printf("left		symbol		prob		right		parent		status\n");
+	printf("left		symbol		prob		right		parent		status		code\n");
 	while(i<filledArray){
-		printf("%x		%c		%g		%x		%x		%d\n", Table[i]->left, Table[i]->symbol, Table[i]->prob, Table[i]->right, Table[i]->parent, Table[i]->status);
+		printf("%x		%c		%g		%x		%x		%d		%s\n", Table[i]->left, Table[i]->symbol, Table[i]->prob, Table[i]->right, Table[i]->parent, Table[i]->status, Table[i]->code);
 		i++;
 	}
 }

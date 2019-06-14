@@ -11,6 +11,7 @@
 #define BTREE_C
 
 #include <stdio.h>
+#include <string.h>
 #include "BTree.h"
 
 addressT AlokasiT(char X, float prob)
@@ -21,6 +22,7 @@ addressT AlokasiT(char X, float prob)
    
   
     addressT P;
+    //char *str = "4", *str2 = "5";
     P=(addressT) malloc(sizeof(ElmtNode));   
     if(P!=Nil)
 	{
@@ -29,7 +31,8 @@ addressT AlokasiT(char X, float prob)
     	Parent(P)=Nil;
     	Left(P)=Nil;
 		Right(P)=Nil;
-		Status(P)=0;	
+		Status(P)=0;
+		Code(P)="NONE";
     }
     return P;
 }

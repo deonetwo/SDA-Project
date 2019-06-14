@@ -18,6 +18,10 @@ int insertNode(addressT *Table, float newProb);
 
 void connectToTree(addressT *Table, BinTree *newTree);
 
+char* concat(const char *s1, const char *s2);
+
+void produceCode(addressT *Table);
+
 void executeHuffman(addressT *Table, BinTree *newTree);
 
 #endif
