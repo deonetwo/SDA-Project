@@ -11,20 +11,27 @@
 #include <string.h>
 #include <ctype.h>
 #include "LinkedList.h"
+#include "Huffman.h"
 #include "BTree.h"
 
+#define TreeArrayLength 30
 #define INPUTDATA 1
 #define SHOWTREE 2
 #define SHOWCODE 3
 #define EXIT 4
 
 bool ResetList(List *L);
+void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList);
 
 int main(){
 	int MenuSelect,i;
 	char Input[100];
 	
 	List DataHuruf;
+	
+	BinTree theTree;
+	
+	addressT T[TreeArrayLength];
 	
 	CreateList(&DataHuruf);
 	
@@ -35,22 +42,20 @@ int main(){
 		switch(MenuSelect){
 			case INPUTDATA:{
 				if(ResetList(&DataHuruf)){
+					initiateTable(T, TreeArrayLength);
+					initiateTree(&theTree);
+					
 					printf("Input kata/kalimat:\n"); 
 					scanf(" %[^\n]s",Input); // Input data dari keyboard
-					//Test
-					/*
-					int i;
-					for(i=0;i<strlen(Input);i++){
-						printf("%c\n",Input[i]);
-					}
-					printf("finish\n");
-					*/
-					//End Test
 					for(i=0;i<strlen(Input);i++){
 						InsertHuruf(&DataHuruf,Input[i]);
 					}
 					CreateProbabilty(&DataHuruf, strlen(Input));
-					PrintInfoList(DataHuruf); // test
+					//PrintInfoList(DataHuruf); // test
+					//Input to Tree
+					HuffmanCodingProccess(T,DataHuruf);
+					executeHuffman(T, &theTree);
+					printArray(T);
 				}
 				else{
 					printf("Kembali ke menu..");
@@ -109,5 +114,16 @@ bool ResetList(List *L){
 	}
 	else{ //List Belum ada
 		return true;
+	}
+}
+
+void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList){
+	int IndexArrayTree = 0;
+	address PNav;
+	PNav = First(theList);
+	while(PNav != NULL){
+		Tree[IndexArrayTree] = AlokasiT(Info(PNav), TotalInfo(PNav));
+		IndexArrayTree++;
+		PNav = Next(PNav);
 	}
 }
