@@ -57,6 +57,16 @@ int countSymbol(addressT *Table){
 	return count;
 }
 
+int countProb(addressT *Table){
+	int i = 0;
+	int TotalProb = 0;
+	while(Table[i]->symbol!=0){
+		TotalProb += Table[i]->prob;
+		i++;
+	}
+	return TotalProb;
+}
+
 int countFilledArray(addressT *Table){
 	int count = 0, i = 0;
 	while(Table[i]->symbol!=0||Table[i]->prob!=0){
@@ -117,10 +127,10 @@ void produceCode(addressT *Table){
 			currentProb = Table[i]->prob;
 			currentSymbol = Table[i]->symbol;
 			while(pcur!=Nil){
-				if(pcur->prob!=100){
+				if(pcur->prob<=countProb(&(*Table))){
 					currentProb = pcur->prob;
 					pcur->symbol = currentSymbol;
-					if(currentProb==pcur->parent->left->prob&&currentSymbol==pcur->parent->left->symbol){
+					if(currentProb == pcur->parent->left->prob && currentSymbol == pcur->parent->left->symbol){
 						if(strcmp(Table[i]->code, "NONE")==0){
 							Table[i]->code = "0";
 						}

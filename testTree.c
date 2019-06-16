@@ -3,7 +3,7 @@
 #include "LinkedList.h"
 #include "BTree.h"
 #include "Huffman.h"
-/*
+
 int main(){
 	int ArrayLength = 26;
 	int jumlah = 0, i = 0;
@@ -13,14 +13,9 @@ int main(){
 	
 	initiateTable(T, ArrayLength);
 	initiateTree(&Tree);
-	T[0] = AlokasiT('a', 4);
-	T[1] = AlokasiT('b', 10);
-	T[2] = AlokasiT('a', 7);
-	T[3] = AlokasiT('a', 13);
-	T[4] = AlokasiT('a', 16);
-	T[5] = AlokasiT('a', 27);
-	T[6] = AlokasiT('a', 3);
-	T[7] = AlokasiT('a', 20);
+	T[0] = AlokasiT('a', 33);
+	T[1] = AlokasiT('b', 33);
+	T[2] = AlokasiT('c', 33);
 	printf("Tabel awal sebelum operasi huffman dijalankan\n");
 	printArray(T);
 	printf("\n\n");
@@ -45,6 +40,6 @@ int main(){
 	/*T[0]->parent = T[5];
 	if(T[5]->symbol==0){
 		printf("%g",T[0]->parent->prob);
-	}
+	}*/
 	return 0;
-}*/
+}
