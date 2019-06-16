@@ -127,7 +127,7 @@ void produceCode(addressT *Table){
 			currentProb = Table[i]->prob;
 			currentSymbol = Table[i]->symbol;
 			while(pcur!=Nil){
-				if(pcur->prob<=countProb(&(*Table))){
+				if(pcur->prob<countProb(&(*Table))){
 					currentProb = pcur->prob;
 					pcur->symbol = currentSymbol;
 					if(currentProb == pcur->parent->left->prob && currentSymbol == pcur->parent->left->symbol){
