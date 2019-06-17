@@ -41,21 +41,22 @@ void initiateTree(BinTree *tree){
 	(*tree) = AlokasiT(0, 0);
 }
 
-void printTree(BinTree P)
+void printTree(BinTree P, int level)
 {   /* I.S  : P terdefinisi                          	*/
     /* F.S  : semua simpul P sudah ditulis / preorder	*/
-	if(P==Nil)
-	{
-	  printf("[ ]");	
-	} else  {
-		    printf("%g	",Prob(P));
-		    if(Left(P)!=Nil){
-		    	printTree(Left(P));
-			}
-		    if(Right(P)!=Nil){
-		    	printTree(Right(P));
-			}
-		}
+    int i;
+    
+	for(i=0;i<level;i++){
+		printf("	");
+	}
+	
+	printf("[%g] \n",Prob(P));
+	if(Left(P)!=Nil){
+		printTree(Left(P), level+1);
+	}
+	if(Right(P)!=Nil){
+		printTree(Right(P), level+1);
+	}
 }
 
 

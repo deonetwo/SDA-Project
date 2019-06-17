@@ -26,6 +26,31 @@ void MoveCodeToList(addressT *Table, List *theList);
 void PrintCode(char Input[100],List theList);
 
 int main(){
+	//-------------test tree-------------
+	BinTree T1, T2, T3, T4, T5;
+	T1 = AlokasiT('a',25);
+	T2 = AlokasiT('b',15);
+	T3 = AlokasiT('c',10);
+	T4 = AlokasiT('d',30);
+	T5 = AlokasiT('e',20);
+	T1->left = T2;
+	T1->right = T3;
+	T2->parent = T1;
+	T3->parent = T1;
+	T2->left = T4;
+	T2->right = T5;
+	T4->parent = T2;
+	T5->parent = T2;
+	
+	printTree(T1,0);
+	
+	
+	return 0;
+	//printTree(testTree);
+	
+	
+	//-------------end of test tree---------
+	/*
 	int MenuSelect,i;
 	char Input[100];
 	
@@ -88,6 +113,7 @@ int main(){
 			} //end Case 4
 		} //end Switch
 	} //end While
+	*/
 } //end Main
 
 int MainMenu(){
