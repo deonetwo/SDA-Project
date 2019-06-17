@@ -22,6 +22,7 @@
 
 bool ResetList(List *L);
 void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList);
+void MoveCodeToList(addressT *Table, List *theList);
 
 int main(){
 	int MenuSelect,i;
@@ -55,7 +56,9 @@ int main(){
 					//Input to Tree
 					HuffmanCodingProccess(T,DataHuruf);
 					executeHuffman(T, &theTree);
-					printArray(T);
+					//printArray(T);
+					MoveCodeToList(T,&DataHuruf);
+					PrintInfoList(DataHuruf);
 				}
 				else{
 					printf("Kembali ke menu..");
@@ -126,4 +129,26 @@ void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList){
 		IndexArrayTree++;
 		PNav = Next(PNav);
 	}
+}
+
+void MoveCodeToList(addressT *Table, List *theList){
+	int filledArray, i = 0;
+	filledArray = countFilledArray(&(*Table));
+	address PNav;
+	PNav = First(*theList);
+	while(PNav != NULL){
+		i = 0;
+		while(i<filledArray){
+			if(Info(PNav) == Table[i]->symbol){
+				//strcpy(Code(PNav),Table[i]->code);
+				Code(PNav) = Table[i]->code;
+			}
+			i++;
+		}
+		PNav = Next(PNav);
+	}
+	//while(i<filledArray){
+		//printf("%x		%c		%g		%x		%x		%d		%s\n", Table[i]->left, Table[i]->symbol, Table[i]->prob, Table[i]->right, Table[i]->parent, Table[i]->status, Table[i]->code);
+	//	i++;
+	//}
 }

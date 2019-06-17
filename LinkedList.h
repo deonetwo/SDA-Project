@@ -16,13 +16,16 @@
 #define Info(P) (P)->huruf
 #define TotalInfo(P) (P)->jumlah
 #define Next(P) (P)->next
+#define Code(P) (P)->code
 #define First(L) (L).first
 
 /* Struktur data Node */
 typedef char infotype;
 typedef struct Node *address;
+typedef char *Code;
 typedef struct Node{
 	infotype huruf;
+	Code code;
 	float jumlah;
 	address next;
 }Node;

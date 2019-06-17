@@ -82,7 +82,7 @@ void PrintInfoList(List L){
 	address PNav;
 	PNav = First(L);
 	while(PNav != NULL){
-		printf("Huruf: %c \nProb: %.2f\n",Info(PNav),TotalInfo(PNav));
+		printf("Huruf: %c \nProb: %.2f\nCode: %s\n",Info(PNav),TotalInfo(PNav),Code(PNav));
 		PNav = Next(PNav);
 	}
 }
