@@ -28,8 +28,8 @@ void PrintCode(char Input[100],List theList);
 int main(){
 	//-------------test tree-------------
 	BinTree T1, T2, T3, T4, T5;
-	T1 = AlokasiT('a',25);
-	T2 = AlokasiT('b',15);
+	T1 = AlokasiT(0,25);
+	T2 = AlokasiT(0,15);
 	T3 = AlokasiT('c',10);
 	T4 = AlokasiT('d',30);
 	T5 = AlokasiT('e',20);
@@ -42,6 +42,7 @@ int main(){
 	T4->parent = T2;
 	T5->parent = T2;
 	
+	//printTree(T1,0);
 	printTree(T1,0);
 	
 	

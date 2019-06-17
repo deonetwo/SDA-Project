@@ -41,22 +41,36 @@ void initiateTree(BinTree *tree){
 	(*tree) = AlokasiT(0, 0);
 }
 
-void printTree(BinTree P, int level)
-{   /* I.S  : P terdefinisi                          	*/
-    /* F.S  : semua simpul P sudah ditulis / preorder	*/
-    int i;
-    
-	for(i=0;i<level;i++){
-		printf("	");
+void printTree(BinTree T, int space) 
+{ 
+	int i, count = 1;
+    // Base case 
+    if (T == NULL) 
+        return; 
+  
+    // Increase distance between levels 
+    space += count; 
+  
+    // Process right child first 
+    printTree(T->right, space); 
+  
+    // Print current node after space 
+    // count 
+    printf("\n"); 
+    for (i = count; i < space; i++) {
+    	printf("	"); 
 	}
-	
-	printf("[%g] \n",Prob(P));
-	if(Left(P)!=Nil){
-		printTree(Left(P), level+1);
+        
+    if(T->symbol!=0){
+    	printf("[%c]\n", T->symbol); 
 	}
-	if(Right(P)!=Nil){
-		printTree(Right(P), level+1);
+	else{
+		printf("[%g]\n", T->prob); 
 	}
+   
+  	
+    // Process left child 
+    printTree(T->left, space); 
 }
 
 

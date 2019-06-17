@@ -35,7 +35,9 @@ typedef addressT BinTree;
 
 addressT AlokasiT(char X, float prob);
 
-void PrintTree(BinTree P);
+void initiateTree(BinTree *tree);
+
+void printTree(BinTree T, int space);
 
 
 #endif
