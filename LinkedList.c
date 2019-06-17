@@ -85,7 +85,7 @@ void PrintInfoList(List L){
 	printf("%10s%15s%15s\n","Simbol","Probabilitas","Kode Huruf");
 	while(PNav != NULL){
 		//printf("Huruf: %c \nProb: %.2f\nCode: %s\n",Info(PNav),TotalInfo(PNav),Code(PNav));
-		printf("%10c%15.2f%15s\n",Info(PNav),TotalInfo(PNav),Code(PNav));
+		printf("%7s'%c'%15.2f%15s\n"," ",Info(PNav),TotalInfo(PNav),Code(PNav));
 		PNav = Next(PNav);
 	}
 }

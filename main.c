@@ -23,6 +23,7 @@
 bool ResetList(List *L);
 void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList);
 void MoveCodeToList(addressT *Table, List *theList);
+void PrintCode(char Input[100],List theList);
 
 int main(){
 	int MenuSelect,i;
@@ -59,6 +60,7 @@ int main(){
 					//printArray(T);
 					MoveCodeToList(T,&DataHuruf);
 					//PrintInfoList(DataHuruf);
+					printf("Data berhasil disimpan..\n");
 				}
 				else{
 					printf("Kembali ke menu..");
@@ -71,7 +73,14 @@ int main(){
 				break;
 			} //end Case 2
 			case SHOWCODE:{
-				PrintInfoList(DataHuruf);
+				if(isEmpty(DataHuruf)){
+					printf("Data tidak ditemukan.\n");
+				}
+				else{
+					PrintInfoList(DataHuruf);
+					PrintCode(Input, DataHuruf);
+				}
+				system("pause");
 				break;
 			} //end Case 3
 			case EXIT:{
@@ -85,10 +94,16 @@ int MainMenu(){
 	int Pilihan;
 	
 	system("cls");
-	printf("1. Input data berupa kalimat.\n");
-	printf("2. Tampilkan Tree.\n");
-	printf("3. Tampilkan kode huruf.\n");
-	printf("4. Exit.\n");
+	printf("Implementasi Huffman Code dengan Array\n");
+	printf("oleh\t: Dewanto & Mufqi\n");
+	printf("Prodi\t: D4-Informatika POLBAN\n");
+	printf("========================================\n");
+	printf("=============  MAIN MENU  ==============\n");
+	printf("========================================\n");
+	printf("1. Input data berupa kalimat\n");
+	printf("2. Tampilkan Tree\n");
+	printf("3. Tampilkan kode huruf\n");
+	printf("4. Exit\n\n");
 	printf("Pilihan: ");scanf("%d",&Pilihan);
 	if(Pilihan > 4 || Pilihan < 1){ //Program error ketika input berupa huruf
 		printf("Pilihan tidak tersedia.\n");
@@ -151,4 +166,25 @@ void MoveCodeToList(addressT *Table, List *theList){
 		//printf("%x		%c		%g		%x		%x		%d		%s\n", Table[i]->left, Table[i]->symbol, Table[i]->prob, Table[i]->right, Table[i]->parent, Table[i]->status, Table[i]->code);
 	//	i++;
 	//}
+}
+
+void PrintCode(char Input[100],List theList){
+	int i;
+	bool found;
+	address PNav;
+	printf("================================================================\n");
+	printf("Input sebelum diubah menjadi code : %s\n",Input);
+	printf("Input setelah diubah menjadi code : ");
+	for(i=0;i<strlen(Input);i++){
+		found = false;
+		PNav = First(theList);
+		while(PNav != NULL || !found){
+			if(Input[i] == Info(PNav)){
+				printf("%s", Code(PNav));
+				found = true;
+			}
+			PNav = Next(PNav);
+		}
+	}
+	printf("\n");
 }
