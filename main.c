@@ -58,7 +58,7 @@ int main(){
 					executeHuffman(T, &theTree);
 					//printArray(T);
 					MoveCodeToList(T,&DataHuruf);
-					PrintInfoList(DataHuruf);
+					//PrintInfoList(DataHuruf);
 				}
 				else{
 					printf("Kembali ke menu..");
@@ -71,7 +71,7 @@ int main(){
 				break;
 			} //end Case 2
 			case SHOWCODE:{
-				printf("Test select 3");
+				PrintInfoList(DataHuruf);
 				break;
 			} //end Case 3
 			case EXIT:{
