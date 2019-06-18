@@ -28,6 +28,17 @@ address Alokasi(infotype Huruf){
 	return newNode;
 }
 
+address AlokasiFreq(infotype Huruf, int Freq){
+	address newNode;
+	newNode = (address) malloc (sizeof(Node));
+	if(newNode != NULL){ //Node Berhasil Dibuat
+		Info(newNode) = Huruf;
+		TotalInfo(newNode) = Freq;
+		Next(newNode) = NULL;
+	}
+	return newNode;
+}
+
 /* Inisiasi List */
 void CreateList(List *L){
 	First(*L) = NULL;
@@ -68,6 +79,30 @@ void InsertHuruf(List *L, infotype Huruf){
 		}
 		if(!isDone){ //Bila huruf tidak ditemukan
 			InsertNode(L, Alokasi(Huruf)); //Membuat node baru dalam list
+		}
+	}
+}
+
+void InsertFreq(List *L, infotype Huruf, int freq){
+	bool isDone = false; //Proses belum selesai
+	if(isEmpty(*L)){ //List Kosong
+		First(*L) = AlokasiFreq(Huruf,freq);
+	}
+	else{ //List tidak kosong
+		address PNav;
+		PNav = First(*L);
+		while(PNav != NULL){ //Mencari huruf yang sama
+			if(Info(PNav) == Huruf){
+				TotalInfo(PNav) += freq;
+				PNav = NULL;
+				isDone = true; //Proses selesai
+			}
+			else{
+				PNav = Next(PNav);
+			}
+		}
+		if(!isDone){ //Bila huruf tidak ditemukan
+			InsertNode(L, AlokasiFreq(Huruf,freq)); //Membuat node baru dalam list
 		}
 	}
 }

@@ -65,7 +65,7 @@ void printTree(BinTree T, int space)
     	printf("[%c]\n", T->symbol); 
 	}
 	else{
-		printf("[%g]\n", T->prob); 
+		printf("[%.2f]\n", T->prob); 
 	}
    
   	

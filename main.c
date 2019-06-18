@@ -10,15 +10,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 #include "LinkedList.h"
 #include "Huffman.h"
 #include "BTree.h"
 
 #define TreeArrayLength 30
 #define INPUTDATA 1
-#define SHOWTREE 2
-#define SHOWCODE 3
-#define EXIT 4
+#define INPUTFREQ 2
+#define SHOWTREE 3
+#define SHOWCODE 4
+#define EXIT 5
 
 bool ResetList(List *L);
 void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList);
@@ -26,6 +28,7 @@ void MoveCodeToList(addressT *Table, List *theList);
 void PrintCode(char Input[100],List theList);
 
 int main(){
+	/*
 	//-------------test tree-------------
 	BinTree T1, T2, T3, T4, T5;
 	T1 = AlokasiT(0,25);
@@ -51,9 +54,11 @@ int main(){
 	
 	
 	//-------------end of test tree---------
-	/*
-	int MenuSelect,i;
+	*/
+	int MenuSelect,i,Freq,TotalFreq;
 	char Input[100];
+	char InputFreq;
+	bool FreqMenu;
 	
 	List DataHuruf;
 	
@@ -64,7 +69,7 @@ int main(){
 	CreateList(&DataHuruf);
 	
 	MenuSelect = 0;
-	while(MenuSelect != 4){
+	while(MenuSelect != EXIT){
 		MenuSelect = MainMenu();
 		
 		switch(MenuSelect){
@@ -79,14 +84,13 @@ int main(){
 						InsertHuruf(&DataHuruf,Input[i]);
 					}
 					CreateProbabilty(&DataHuruf, strlen(Input));
-					//PrintInfoList(DataHuruf); // test
+					
 					//Input to Tree
 					HuffmanCodingProccess(T,DataHuruf);
 					executeHuffman(T, &theTree);
-					//printArray(T);
 					MoveCodeToList(T,&DataHuruf);
-					//PrintInfoList(DataHuruf);
 					printf("Data berhasil disimpan..\n");
+					FreqMenu = false;
 				}
 				else{
 					printf("Kembali ke menu..");
@@ -94,8 +98,42 @@ int main(){
 				system("pause");
 				break;
 			} //end Case 1
+			case INPUTFREQ:{
+				if(ResetList(&DataHuruf)){
+					TotalFreq = 0;
+					initiateTable(T, TreeArrayLength);
+					initiateTree(&theTree);
+					do{
+						system("cls");
+						printf("Implementasi Huffman Code dengan Array\n");
+						printf("oleh\t: Dewanto & Mufqi\n");
+						printf("Prodi\t: D4-Informatika POLBAN\n");
+						printf("========================================\n");
+						printf("=============  MAIN MENU  ==============\n");
+						printf("========================================\n");
+						printf("Input huruf\t: "); scanf(" %c",&InputFreq);
+						printf("Input frequensi\t: "); scanf(" %d",&Freq);
+						InsertFreq(&DataHuruf,InputFreq,Freq);
+						TotalFreq += Freq;
+						printf("Tekan Enter untuk melanjutkan dan Esc untuk mengakhiri..\n"); 
+					}while(getch() != 27); //Loop berakhir saat menekan ESC(ASCI = 27) saat selesai
+					CreateProbabilty(&DataHuruf, TotalFreq);
+					HuffmanCodingProccess(T,DataHuruf);
+					executeHuffman(T, &theTree);
+					MoveCodeToList(T,&DataHuruf);
+					printf("Data berhasil disimpan..\n");
+					FreqMenu = true;
+				}
+				else{
+					printf("Kembali ke menu..");
+				}
+				system("pause");
+				break;
+			}
 			case SHOWTREE:{
-				printf("Test select 2");
+				printTree(theTree,0);
+				system("pause");
+				//printf("Test select 2");
 				break;
 			} //end Case 2
 			case SHOWCODE:{
@@ -104,7 +142,9 @@ int main(){
 				}
 				else{
 					PrintInfoList(DataHuruf);
-					PrintCode(Input, DataHuruf);
+					if(!FreqMenu){
+						PrintCode(Input, DataHuruf);
+					}
 				}
 				system("pause");
 				break;
@@ -114,7 +154,6 @@ int main(){
 			} //end Case 4
 		} //end Switch
 	} //end While
-	*/
 } //end Main
 
 int MainMenu(){
@@ -127,12 +166,13 @@ int MainMenu(){
 	printf("========================================\n");
 	printf("=============  MAIN MENU  ==============\n");
 	printf("========================================\n");
-	printf("1. Input data berupa kalimat\n");
-	printf("2. Tampilkan Tree\n");
-	printf("3. Tampilkan kode huruf\n");
-	printf("4. Exit\n\n");
+	printf("1. Input data berupa sekumpulan simbol\n");
+	printf("2. Input data berupa simbol beserta frequensi\n");
+	printf("3. Tampilkan Tree\n");
+	printf("4. Tampilkan kode huruf\n");
+	printf("5. Exit\n\n");
 	printf("Pilihan: ");scanf("%d",&Pilihan);
-	if(Pilihan > 4 || Pilihan < 1){ //Program error ketika input berupa huruf
+	if(Pilihan > EXIT || Pilihan < INPUTDATA){ //Program error ketika input berupa huruf
 		printf("Pilihan tidak tersedia.\n");
 		system("pause");
 		Pilihan = 0;

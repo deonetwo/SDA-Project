@@ -37,7 +37,7 @@ addressT AlokasiT(char X, float prob);
 
 void initiateTree(BinTree *tree);
 
-void printTree(BinTree T, int space);
+void printTree(BinTree T,int space);
 
 
 #endif
