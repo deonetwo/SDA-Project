@@ -15,19 +15,20 @@
 #include "BTree.h"
 
 addressT AlokasiT(char X, float prob)
-{   /* menghasilkan address hasil alokasi sebuah Node */
-    /* Jika alokasi berhasil, maka address tidak Nil  */
-    /* Info(P)=X, Left(P)=Nil,Right(P)=Nil; Count(P)=0 */	
-    /* Jika alokasi gagal ; mengembalikan  Nil 	     */
+{   /* 	menghasilkan address hasil alokasi sebuah ElmtNode */
+    /* 	Jika alokasi berhasil, maka address tidak Nil  */
+    /* 	Prob(P)=prob, Parent(P)=Nil, Symbol(P)=X, Left(P)=Nil, 
+		Right(P)=Nil; Status(P)=0 */	
+    /* 	Jika alokasi gagal ; mengembalikan  Nil 	     */
    
   
     addressT P;
     //char *str = "4", *str2 = "5";
     P=(addressT) malloc(sizeof(ElmtNode));   
-    if(P!=Nil)
+    if(P!=Nil)				//Jika proses malloc berhasil, maka P!=Nil
 	{
-		Prob(P)=prob;
-    	Symbol(P)=X;
+		Prob(P)=prob;		//Probabilitas diisi sesuai parameter
+    	Symbol(P)=X;		
     	Parent(P)=Nil;
     	Left(P)=Nil;
 		Right(P)=Nil;
@@ -38,38 +39,44 @@ addressT AlokasiT(char X, float prob)
 }
 
 void initiateTree(BinTree *tree){
+	/* 	Untuk menginisiasi tree agar tree dapat dipakai*/
+	
 	(*tree) = AlokasiT(0, 0);
 }
 
 void printTree(BinTree T, int space) 
 { 
-	int i, count = 1;
-    // Base case 
-    if (T == NULL) 
+	/*	Untuk mencetak tree secara 'Reverse In-Order' atau In-Order 
+		yang dimulai dari kanan terlebih dahulu*/
+	/*	Tree memanjang ke kanan dengan root di paling kiri*/
+	
+	int i, count = 1;	//var.count adalah multiplier jarak antar level di tree
+    // Jika T nya Nil maka akan langsung return
+    if (T == Nil) 
         return; 
   
-    // Increase distance between levels 
+    // Pertambahan jarak yang terakumulasi di var.space
     space += count; 
   
-    // Process right child first 
+    // Mendahulukan right child
     printTree(T->right, space); 
   
-    // Print current node after space 
-    // count 
+    // Proses pemberian jarak antar level
     printf("\n"); 
     for (i = count; i < space; i++) {
     	printf("	"); 
 	}
-        
+	
+	//Proses print
     if(T->symbol!=0){
     	printf("['%c']\n", T->symbol); 
 	}
 	else{
-		printf("[%.2f]\n", T->prob); 
+		printf("[%g]\n", T->prob); 
 	}
    
   	
-    // Process left child 
+    // Proses left child 
     printTree(T->left, space); 
 }
 
