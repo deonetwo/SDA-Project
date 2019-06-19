@@ -38,29 +38,24 @@ typedef struct{
 
 /*** Prototype */
 
-/* Inisiasi Node */
+/* Constructor */
 address Alokasi(infotype Huruf);
 address AlokasiFreq(infotype Huruf, int Freq);
-
-/* Inisiasi List */
-void CreateList(List *L);
-
-/* Penambahan node pada list */
-void InsertNode(List *L, address NewNode);
-void InsertHuruf(List *L, infotype Huruf);
-void InsertFreq(List *L, infotype Huruf, int freq);
-
-/* Validasi List */
-bool isEmpty(List L);
-
-/* (print info) */
-void PrintInfoList(List L);
-
-/* (create prob) */
 void CreateProbabilty(List *L, float Jumlah);
 
 /* Destructor */
 void DeleteAllNode(List *L);
 
+/* Inisiasi List */
+void CreateList(List *L);
+
+/* Operasi-operasi pada list */
+void InsertNode(List *L, address NewNode);
+void InsertHuruf(List *L, infotype Huruf);
+void InsertFreq(List *L, infotype Huruf, int freq);
+void PrintInfoList(List L);
+
+/* Validasi List */
+bool isEmpty(List L);
 
 #endif

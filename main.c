@@ -22,11 +22,13 @@
 #define SHOWCODE 4
 #define EXIT 5
 
+/*** Prototype Modul */
 bool ResetList(List *L);
 void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList);
 void MoveCodeToList(addressT *Table, List *theList);
 void PrintCode(char Input[100],List theList);
 
+/*** Main Program */
 int main(){
 	//Variabel dalam program
 	int MenuSelect,i,Freq,TotalFreq;
@@ -140,6 +142,7 @@ int main(){
 	} //end While tidak EXIT
 } //end Main
 
+//Menampilkan menu aplikasi
 int MainMenu(){
 	int Pilihan;
 	
@@ -165,10 +168,12 @@ int MainMenu(){
 	return Pilihan;
 }
 
+//Memeriksa apakah telah ada/tidak
 bool ListExist(List L){
 	return First(L) != NULL;
 }
 
+//Menghapus list
 bool ResetList(List *L){
 	char InputAnswer;
 	if(ListExist(*L)){ //List masih ada
@@ -187,6 +192,7 @@ bool ResetList(List *L){
 	}
 }
 
+//Menginput huruf-huruf yang berada dalam list menuju tree
 void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList){
 	int IndexArrayTree = 0;
 	address PNav;
@@ -198,6 +204,7 @@ void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList){
 	}
 }
 
+//Memasukan data dari tree menuju list
 void MoveCodeToList(addressT *Table, List *theList){
 	int filledArray, i = 0;
 	filledArray = countFilledArray(&(*Table));
@@ -216,6 +223,7 @@ void MoveCodeToList(addressT *Table, List *theList){
 	}//end while List mencapai akhir
 }
 
+//Menampilkan code hasil terjemahan berupa huffman code
 void PrintCode(char Input[100],List theList){
 	int i;
 	bool found;

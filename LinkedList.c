@@ -14,9 +14,9 @@
 #include<stdbool.h>
 #include"LinkedList.h"
 
-/** Prototype */
+/*** Prototype */
 
-/* Inisiasi Node */
+/** Constructor */
 address Alokasi(infotype Huruf){
 	address newNode;
 	newNode = (address) malloc (sizeof(Node));
@@ -39,12 +39,32 @@ address AlokasiFreq(infotype Huruf, int Freq){
 	return newNode;
 }
 
-/* Inisiasi List */
 void CreateList(List *L){
 	First(*L) = NULL;
 }
 
-/* Penambahan node pada list */
+void CreateProbabilty(List *L, float Jumlah){
+	address PNav;
+	PNav = First(*L);
+	while(PNav != NULL){
+		TotalInfo(PNav) = TotalInfo(PNav)/Jumlah*100;
+		PNav = Next(PNav);
+	}
+}
+
+/** Destructor */
+void DeleteAllNode(List *L){
+	address PNav, DeleteNode;
+	PNav = First(*L);
+	First(*L) = NULL;
+	while(PNav != NULL){
+		DeleteNode = PNav;
+		PNav = Next(PNav);
+		free(DeleteNode);
+	}
+}
+
+/** Operasi-operasi pada list */
 void InsertNode(List *L, address NewNode){
 	if(isEmpty(*L)){ //List Kosong
 		First(*L) = NewNode;
@@ -107,12 +127,6 @@ void InsertFreq(List *L, infotype Huruf, int freq){
 	}
 }
 
-/* Validasi List */
-bool isEmpty(List L){
-	return L.first == NULL;
-}
-
-/* (print info) */
 void PrintInfoList(List L){
 	address PNav;
 	PNav = First(L);
@@ -125,26 +139,9 @@ void PrintInfoList(List L){
 	}
 }
 
-/* (create prob) */
-void CreateProbabilty(List *L, float Jumlah){
-	address PNav;
-	PNav = First(*L);
-	while(PNav != NULL){
-		TotalInfo(PNav) = TotalInfo(PNav)/Jumlah*100;
-		PNav = Next(PNav);
-	}
-}
-
-/* Destructor */
-void DeleteAllNode(List *L){
-	address PNav, DeleteNode;
-	PNav = First(*L);
-	First(*L) = NULL;
-	while(PNav != NULL){
-		DeleteNode = PNav;
-		PNav = Next(PNav);
-		free(DeleteNode);
-	}
+/** Validasi List */
+bool isEmpty(List L){
+	return L.first == NULL;
 }
 
 #endif
