@@ -62,7 +62,7 @@ void printTree(BinTree T, int space)
 	}
         
     if(T->symbol!=0){
-    	printf("[%c]\n", T->symbol); 
+    	printf("['%c']\n", T->symbol); 
 	}
 	else{
 		printf("[%.2f]\n", T->prob); 
