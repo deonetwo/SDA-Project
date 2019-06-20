@@ -15,7 +15,7 @@
 #include "Huffman.h"
 #include "BTree.h"
 
-#define TreeArrayLength 30
+#define TreeArrayLength 256
 #define INPUTDATA 1
 #define INPUTFREQ 2
 #define SHOWTREE 3
@@ -113,6 +113,7 @@ int main(){
 				}
 				else{
 					printTree(theTree,0);
+					printf("Keterangan: Tree dibaca dari kiri ke kanan sehingga root berada di kiri.\n");
 				}
 				system("pause");
 				break;
