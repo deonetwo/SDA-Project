@@ -20,7 +20,9 @@
 #define INPUTFREQ 2
 #define SHOWTREE 3
 #define SHOWCODE 4
-#define EXIT 5
+#define COMPRESS 5
+#define DECOMPRESS 6
+#define EXIT 7
 
 /*** Prototype Modul */
 bool ResetList(List *L);
@@ -131,6 +133,47 @@ int main(){
 				system("pause");
 				break;
 			} //end Case 4
+			case COMPRESS:{
+				if(ResetList(&DataHuruf)){
+					initiateTable(T, TreeArrayLength);
+					initiateTree(&theTree);
+					int JumlahHurufFile=0;
+					FILE *fp;
+					char FileName[25],huruf;
+					printf("Masukan nama file: ");
+					scanf("%s",FileName);
+					
+					fp = fopen(FileName, "r");
+					
+					if(fp == NULL){
+						perror("Error");
+					}
+					else{
+						while((huruf = fgetc(fp)) != EOF){
+							//printf("%c",huruf);
+							InsertHuruf(&DataHuruf,huruf);
+							JumlahHurufFile += 1;
+						}
+						//Huffman Process
+						CreateProbabilty(&DataHuruf, JumlahHurufFile);
+						HuffmanCodingProccess(T,DataHuruf);
+						executeHuffman(T, &theTree);
+						MoveCodeToList(T,&DataHuruf);
+						printf("Data berhasil disimpan..\n");
+						FreqMenu = true;
+					}
+					fclose(fp);
+				}
+				else{
+					printf("Kembali ke menu..");
+				}
+				system("pause");
+				break;
+			}
+			case DECOMPRESS:{
+				
+				break;
+			}
 			case EXIT:{
 				printf("Terima Kasih telah menggunakan program ini.\n");
 				break;
