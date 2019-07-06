@@ -245,4 +245,17 @@ bool isEmpty(List L){
 	return L.first == NULL;
 }
 
+bool inList(List L, char Input){
+	address PNav;
+	PNav = First(L);
+	while(PNav != NULL){
+		if(Input == Info(PNav)){
+			printf("%s",Code(PNav));
+			return true;
+		}
+		PNav = Next(PNav);	
+	}
+	return false;
+}
+
 #endif

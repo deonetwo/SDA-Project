@@ -58,5 +58,6 @@ void PrintInfoList(List L);
 
 /* Validasi List */
 bool isEmpty(List L);
+bool inList(List L, char Input);
 
 #endif

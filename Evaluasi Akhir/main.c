@@ -22,7 +22,9 @@
 #define SHOWCODE 4
 #define COMPRESS 5
 #define DECOMPRESS 6
-#define EXIT 7
+#define INPUTFILE 7
+#define MAKECODE 8
+#define EXIT 9
 
 /*** Prototype Modul */
 bool ResetList(List *L);
@@ -34,7 +36,7 @@ void PrintCode(char Input[LengthOfInput],List theList);
 int main(){
 	//Variabel dalam program
 	int MenuSelect,i,Freq,TotalFreq;
-	char Input[LengthOfInput];
+	char Input[LengthOfInput],InputTranslate[LengthOfInput];
 	char InputFreq;
 	bool FreqMenu;
 	//Variabel lain
@@ -174,6 +176,61 @@ int main(){
 				
 				break;
 			}
+			case INPUTFILE:{
+				if(ResetList(&DataHuruf)){
+					initiateTable(T, TreeArrayLength);
+					initiateTree(&theTree);
+					int JumlahHurufFile=0;
+					FILE *fp;
+					char FileName[25],huruf;
+					printf("Masukan nama file: ");
+					scanf("%s",FileName);
+					
+					fp = fopen(FileName, "r");
+					
+					if(fp == NULL){
+						perror("Error");
+					}
+					else{
+						while((huruf = fgetc(fp)) != EOF){
+							//printf("%c",huruf);
+							InsertHuruf(&DataHuruf,huruf);
+							JumlahHurufFile += 1;
+						}
+						//Huffman Process
+						CreateProbabilty(&DataHuruf, JumlahHurufFile);
+						HuffmanCodingProccess(T,DataHuruf);
+						executeHuffman(T, &theTree);
+						MoveCodeToList(T,&DataHuruf);
+						printf("Data berhasil disimpan..\n");
+						FreqMenu = true;
+					}
+					fclose(fp);
+				}
+				else{
+					printf("Kembali ke menu..");
+				}
+				system("pause");
+				break;
+			}
+			case MAKECODE:{
+				if(isEmpty(DataHuruf)){
+					printf("Data tidak tersedia, silahkan input terlebih dahulu\n");
+				}
+				else{
+					printf("Input beberapa simbol untuk dijadikan code(Batas: %d huruf):\n",LengthOfInput);
+					scanf(" %[^\n]s",&InputTranslate);
+					printf("Kode (beberapa symbol tidak mempunyai code silahkan input kembali):\n");
+					for(i=0;i<strlen(InputTranslate);i++){
+						if(!inList(DataHuruf, InputTranslate[i])){
+							printf("%c",InputTranslate[i]);
+						}
+					}
+					printf("\n");
+				}
+				system("pause");
+				break;
+			}
 			case EXIT:{
 				printf("Terima Kasih telah menggunakan program ini.\n");
 				break;
@@ -205,7 +262,9 @@ int MainMenu(){
 	printf("4. Tampilkan kode huruf\n");
 	printf("5. Kompresi file\n");
 	printf("6. Dekompresi file\n");
-	printf("7. Exit\n\n");
+	printf("7. Input data berupa file\n");
+	printf("8. Buat kode dari kamus yang tersimpan\n");
+	printf("9. Exit\n\n");
 	printf("Pilihan: ");scanf("%d",&Pilihan);
 	if(Pilihan > EXIT || Pilihan < INPUTDATA){ //Program error ketika input berupa huruf
 		printf("Pilihan tidak tersedia.\n");
