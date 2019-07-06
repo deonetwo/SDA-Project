@@ -80,6 +80,20 @@ void printTree(BinTree T, int space)
     printTree(T->left, space); 
 }
 
-
+BinTree AlokasiTree(char X, BinTree left, BinTree right){
+	addressT P;
+    P=(addressT) malloc(sizeof(ElmtNode));
+	if(P!=Nil)				//Jika proses malloc berhasil, maka P!=Nil
+	{
+		Prob(P)=0;
+    	Symbol(P)=X;		
+    	Parent(P)=Nil;
+    	Left(P)=left;
+		Right(P)=right;
+		Status(P)=0;
+		Code(P)="NONE";
+    }
+    return P;
+}
 
 #endif

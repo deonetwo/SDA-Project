@@ -15,7 +15,7 @@
 #include "Huffman.h"
 #include "BTree.h"
 
-#define TreeArrayLength 256
+#define TreeArrayLength 511
 #define INPUTDATA 1
 #define INPUTFREQ 2
 #define SHOWTREE 3
@@ -31,6 +31,9 @@ bool ResetList(List *L);
 void HuffmanCodingProccess(addressT Tree[TreeArrayLength], List theList);
 void MoveCodeToList(addressT *Table, List *theList);
 void PrintCode(char Input[LengthOfInput],List theList);
+void EncodeNode(BinTree node, FILE *fp);
+BinTree ReadTree(FILE *reader);
+void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList);
 
 /*** Main Program */
 int main(){
@@ -140,19 +143,18 @@ int main(){
 					initiateTable(T, TreeArrayLength);
 					initiateTree(&theTree);
 					int JumlahHurufFile=0;
-					FILE *fp;
+					FILE *fpo,*fp;
 					char FileName[25],huruf;
 					printf("Masukan nama file: ");
 					scanf("%s",FileName);
 					
-					fp = fopen(FileName, "r");
+					fpo = fopen(FileName, "r");
 					
-					if(fp == NULL){
+					if(fpo == NULL){
 						perror("Error");
 					}
 					else{
-						while((huruf = fgetc(fp)) != EOF){
-							//printf("%c",huruf);
+						while((huruf = fgetc(fpo)) != EOF){
 							InsertHuruf(&DataHuruf,huruf);
 							JumlahHurufFile += 1;
 						}
@@ -161,9 +163,22 @@ int main(){
 						HuffmanCodingProccess(T,DataHuruf);
 						executeHuffman(T, &theTree);
 						MoveCodeToList(T,&DataHuruf);
-						printf("Data berhasil disimpan..\n");
 						FreqMenu = true;
 					}
+					rewind(fpo);
+					//strcat(FileName,"md");
+					
+					fp = fopen("Compressed.txt", "w");
+					
+					if(fp == NULL){
+						perror("Error");
+					}
+					else{
+						EncodeNode(theTree, fp);
+						putc(00,fp);
+						CompressTheCode(fpo, fp, DataHuruf);
+					}
+					fclose(fpo);
 					fclose(fp);
 				}
 				else{
@@ -173,7 +188,30 @@ int main(){
 				break;
 			}
 			case DECOMPRESS:{
+				initiateTable(T, TreeArrayLength);
+				initiateTree(&theTree);
 				
+				char FileName[25],huruf;
+				printf("Masukan nama file: ");
+				scanf("%s",FileName);
+					
+				FILE *fp;
+				fp = fopen(FileName, "r");
+				
+				if(fp == NULL){
+					perror("Error");
+				}
+				else{
+					/*
+					while((huruf = fgetc(fp)) != EOF){
+						printf("%c",huruf);
+					}*/
+					rewind(fp);
+					theTree = ReadTree(fp); //BUG: caranya agar ngeread sampe NULL kitu kumaha (FIXED)
+				}
+				printTree(theTree,0);
+				system("pause");
+				fclose(fp);
 				break;
 			}
 			case INPUTFILE:{
@@ -274,9 +312,124 @@ int MainMenu(){
 	return Pilihan;
 }
 
+void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList){
+	int i,j,k=0;
+	char s1[2],s2[2],huruf;
+	bool found;
+	address PNav;
+	Code hasil, kompres="NONE",sisa="NONE";
+	int pembagi = 8, batas,asci = 0;
+	hasil = "123";
+	while((huruf = fgetc(OriginalFile)) != EOF){
+		PNav = First(theList);
+		while(PNav != NULL){
+			if(huruf == Info(PNav)){
+				if(hasil=="123"){
+					hasil = PNav->code;
+				}
+				else{
+					hasil = concat(hasil,Code(PNav));
+				}
+				break;
+			}
+			PNav = Next(PNav);
+		}
+	}
+	//printf("Input setelah diubah menjadi code : %s",hasil);
+	batas = strlen(hasil)-(strlen(hasil)%pembagi);
+	i=0;
+	while(i<batas){
+		for(j=i;j<=i+7;j++){
+			if(j==i){
+				asci += (hasil[j]-'0')*128;
+			}
+			if(j==i+1){
+				asci += (hasil[j]-'0')*64;
+			}
+			if(j==i+2){
+				asci += (hasil[j]-'0')*32;
+			}
+			if(j==i+3){
+				asci += (hasil[j]-'0')*16;
+			}
+			if(j==i+4){
+				asci += (hasil[j]-'0')*8;
+			}
+			if(j==i+5){
+				asci += (hasil[j]-'0')*4;
+			}
+			if(j==i+6){
+				asci += (hasil[j]-'0')*2;
+			}
+			if(j==i+7){
+				asci += (hasil[j]-'0')*1;
+			}
+		}
+		s1[0] = (char)asci;
+		s1[1] = '\0';
+		s2[0] = '\0';
+		s2[1] = '\0';
+		if(i==0){
+			kompres = concat(s1,s2);
+		}
+		else{
+			kompres = concat(kompres,s1);
+		}
+		asci = 0;
+		i = i + 8;
+	}
+	while(i<strlen(hasil)){
+		s1[0] = hasil[i];
+		kompres = concat (kompres,s1);
+		if(strcmp(sisa,"NONE")==0){
+			sisa = concat(s1,s2);
+		}
+		else{
+			sisa = concat(sisa,s1);
+		}
+		i++;
+	}
+	fprintf(CompressedFile,"%s%s",kompres,sisa);
+	//printf("\n");
+	//printf("Output hasil compress             : %s",kompres);
+	//printf("\nKode - kode sisa yang tidak terkompres         : %s",sisa);
+	//printf("\n");
+}
+
 //Memeriksa apakah telah ada/tidak
 bool ListExist(List L){
 	return First(L) != NULL;
+}
+
+void EncodeNode(BinTree node, FILE *fp){
+    if (Symbol(node) != 0)
+    {
+        fprintf(fp,"1");
+        fprintf(fp,"%c",node->symbol);
+    }
+    else
+    {
+        fprintf(fp,"0");
+        EncodeNode(node->left, fp);
+        EncodeNode(node->right, fp);
+    }
+}
+
+BinTree ReadTree(FILE *reader){
+    if (fgetc(reader) == '1')
+    {
+    	return AlokasiTree(fgetc(reader), NULL, NULL);
+        //return new Node(reader.ReadByte(), null, null);
+    }
+    else
+    {
+    	BinTree leftChild = ReadTree(reader);
+    	BinTree rightChild = ReadTree(reader);
+    	return AlokasiTree(0,leftChild,rightChild);
+        //Node leftChild = ReadNode(reader);
+        //Node rightChild = ReadNode(reader);
+        //return new Node(0, leftChild, rightChild);
+    }
 }
 
 //Menghapus list

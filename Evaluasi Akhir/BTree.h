@@ -52,5 +52,6 @@ void printTree(BinTree T, int space);
 		yang dimulai dari kanan terlebih dahulu*/
 /*	Tree memanjang ke kanan dengan root di paling kiri*/
 
+BinTree AlokasiTree(char X, BinTree left, BinTree right);
 
 #endif
