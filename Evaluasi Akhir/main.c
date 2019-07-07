@@ -449,7 +449,7 @@ void ProcessCodeToOrigin(Code OriginalCode,char huruf){
 	STACK *BinStack;
 	BinStack = InitStack();
 	int tempInt;
-	Code tempChar;
+	char tempChar[2];
 	
 	int decimal = (int) huruf;
 	
@@ -459,7 +459,8 @@ void ProcessCodeToOrigin(Code OriginalCode,char huruf){
 	}while(decimal!=0);
 	while(!IsEmpty(BinStack)){
 		tempInt = PopStack(&BinStack) + '0';
-		tempChar = (char) tempInt;
+		tempChar[0] = (char) tempInt;
+		tempChar[1] = '\0';
 		OriginalCode = concat(OriginalCode,tempChar);
 	}
 }
