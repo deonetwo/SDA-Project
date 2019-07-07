@@ -35,7 +35,7 @@ void PrintCode(char Input[LengthOfInput],List theList);
 void EncodeNode(BinTree node, FILE *fp);
 BinTree ReadTree(FILE *reader);
 void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList);
-void ProcessCodeToOrigin(Code OriginalCode,char huruf);
+void ProcessCodeToOrigin(Code theCode,char huruf);
 
 /*** Main Program */
 int main(){
@@ -170,7 +170,7 @@ int main(){
 					rewind(fpo);
 					//strcat(FileName,"md");
 					
-					fp = fopen("Compressed.txt", "wb");
+					fp = fopen("Compressed.txt", "w");
 					
 					if(fp == NULL){
 						perror("Error");
@@ -194,13 +194,15 @@ int main(){
 				initiateTable(T, TreeArrayLength);
 				initiateTree(&theTree);
 				
+				STACK *BinSTACK = InitStack();
 				Code OriginalCode = "";
-				char FileName[25],huruf;
+				char FileName[25];
+				unsigned char huruf;
 				printf("Masukan nama file: ");
 				//scanf("%s",FileName);
 					
 				FILE *fp;
-				fp = fopen("Compressed.txt", "rb"); // filename ganti
+				fp = fopen("Compressed.txt", "r"); // filename ganti
 				
 				if(fp == NULL){
 					perror("Error");
@@ -215,7 +217,26 @@ int main(){
 					fgetc(fp);
 					while((huruf = fgetc(fp)) != EOF && huruf != 00){
 						//printf("%c",huruf);
-						ProcessCodeToOrigin(OriginalCode,huruf);
+						int tempInt;
+						char tempChar[2];
+						
+						int decimal = (int) huruf;
+						/*
+						do{
+							PushStack(&BinSTACK, decimal%2 );
+							decimal=decimal/2;
+						}while(decimal!=0);*/
+						for(i=0;i<8;i++){
+							PushStack(&BinSTACK, decimal%2 );
+							decimal=decimal/2;
+						}
+						while(!IsEmpty(BinSTACK)){
+							tempInt = PopStack(&BinSTACK) + '0'; //klo angkanya cuman 2 kenapa ga pake if aja sekalian kan if 48 tambahin 0 klo 49 tambahin 1 kan?
+							tempChar[0] = (char) tempInt; //biner 0 di depan belum kebawa euy
+							tempChar[1] = '\0';
+							OriginalCode = concat(OriginalCode,tempChar);
+						}
+						//ProcessCodeToOrigin(OriginalCode,huruf); // masih ada bug original file ga balik lagi kitu euy, bisa pake if, misal satu persatu aja ntarstacknya dipop perchar
 					}
 					printf("\n");
 					while((huruf = fgetc(fp)) != EOF){
@@ -348,7 +369,7 @@ void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList){
 			PNav = Next(PNav);
 		}
 	}
-	//printf("Input setelah diubah menjadi code : %s",hasil);
+	printf("Input setelah diubah menjadi code : %s",hasil);
 	batas = strlen(hasil)-(strlen(hasil)%pembagi);
 	i=0;
 	if(strlen(hasil)>=8){
@@ -445,7 +466,7 @@ void EncodeNode(BinTree node, FILE *fp){
     }
 }
 
-void ProcessCodeToOrigin(Code OriginalCode,char huruf){
+void ProcessCodeToOrigin(Code theCode,char huruf){
 	STACK *BinStack;
 	BinStack = InitStack();
 	int tempInt;
@@ -458,10 +479,10 @@ void ProcessCodeToOrigin(Code OriginalCode,char huruf){
 		decimal=decimal/2;
 	}while(decimal!=0);
 	while(!IsEmpty(BinStack)){
-		tempInt = PopStack(&BinStack) + '0';
+		tempInt = PopStack(&BinStack) + '0'; //klo angkanya cuman 2 kenapa ga pake if aja sekalian kan if 48 tambahin 0 klo 49 tambahin 1 kan?
 		tempChar[0] = (char) tempInt;
 		tempChar[1] = '\0';
-		OriginalCode = concat(OriginalCode,tempChar);
+		theCode = concat(theCode,tempChar);
 	}
 }
 
