@@ -1,6 +1,9 @@
 #include "STACK.h"
+#include "LinkedList.h"
+#include "Huffman.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include <limits.h>
 
@@ -26,7 +29,9 @@ bool IsEmpty(STACK *top) {
 
 /*Mengambil data yang paling atas sekaligus menghapus*/
 dataType PopStack(STACK **top) {
-	STACK* temp;
+	STACK *temp;
+	//char *result = "NONE";
+	//char s1[2],s2[2];
 	dataType popped;
 	
 	if (IsEmpty(*top)) {
@@ -37,6 +42,12 @@ dataType PopStack(STACK **top) {
 		*top = temp->next;
 		popped = temp->data;
 		free(temp);
+		/*
+		s1[0] = (char)popped;
+		s1[1] = '\0';
+		s2[0] = '\0';
+		s2[1] = '\0';
+		result = concat(s1,s2);*/
 		return popped;	
 	}
 }

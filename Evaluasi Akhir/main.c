@@ -14,6 +14,7 @@
 #include "LinkedList.h"
 #include "Huffman.h"
 #include "BTree.h"
+#include "STACK.h"
 
 #define TreeArrayLength 511
 #define INPUTDATA 1
@@ -34,6 +35,7 @@ void PrintCode(char Input[LengthOfInput],List theList);
 void EncodeNode(BinTree node, FILE *fp);
 BinTree ReadTree(FILE *reader);
 void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList);
+void ProcessCodeToOrigin(Code OriginalCode,char huruf);
 
 /*** Main Program */
 int main(){
@@ -168,7 +170,7 @@ int main(){
 					rewind(fpo);
 					//strcat(FileName,"md");
 					
-					fp = fopen("Compressed.txt", "w");
+					fp = fopen("Compressed.txt", "wb");
 					
 					if(fp == NULL){
 						perror("Error");
@@ -177,6 +179,7 @@ int main(){
 						EncodeNode(theTree, fp);
 						putc(00,fp);
 						CompressTheCode(fpo, fp, DataHuruf);
+						
 					}
 					fclose(fpo);
 					fclose(fp);
@@ -191,12 +194,13 @@ int main(){
 				initiateTable(T, TreeArrayLength);
 				initiateTree(&theTree);
 				
+				Code OriginalCode = "";
 				char FileName[25],huruf;
 				printf("Masukan nama file: ");
-				scanf("%s",FileName);
+				//scanf("%s",FileName);
 					
 				FILE *fp;
-				fp = fopen(FileName, "r");
+				fp = fopen("Compressed.txt", "rb"); // filename ganti
 				
 				if(fp == NULL){
 					perror("Error");
@@ -206,10 +210,19 @@ int main(){
 					while((huruf = fgetc(fp)) != EOF){
 						printf("%c",huruf);
 					}*/
-					rewind(fp);
+					//rewind(fp);
 					theTree = ReadTree(fp); //BUG: caranya agar ngeread sampe NULL kitu kumaha (FIXED)
+					fgetc(fp);
+					while((huruf = fgetc(fp)) != EOF && huruf != 00){
+						//printf("%c",huruf);
+						ProcessCodeToOrigin(OriginalCode,huruf);
+					}
+					printf("\n");
+					while((huruf = fgetc(fp)) != EOF){
+						printf("%c",huruf);
+					}
 				}
-				printTree(theTree,0);
+				//printTree(theTree,0);
 				system("pause");
 				fclose(fp);
 				break;
@@ -338,62 +351,79 @@ void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList){
 	//printf("Input setelah diubah menjadi code : %s",hasil);
 	batas = strlen(hasil)-(strlen(hasil)%pembagi);
 	i=0;
-	while(i<batas){
-		for(j=i;j<=i+7;j++){
-			if(j==i){
-				asci += (hasil[j]-'0')*128;
+	if(strlen(hasil)>=8){
+		while(i<batas){
+			for(j=i;j<=i+7;j++){
+				if(j==i){
+					asci += (hasil[j]-'0')*128;
+				}
+				if(j==i+1){
+					asci += (hasil[j]-'0')*64;
+				}
+				if(j==i+2){
+					asci += (hasil[j]-'0')*32;
+				}
+				if(j==i+3){
+					asci += (hasil[j]-'0')*16;
+				}
+				if(j==i+4){
+					asci += (hasil[j]-'0')*8;
+				}
+				if(j==i+5){
+					asci += (hasil[j]-'0')*4;
+				}
+				if(j==i+6){
+					asci += (hasil[j]-'0')*2;
+				}
+				if(j==i+7){
+					asci += (hasil[j]-'0')*1;
+				}
 			}
-			if(j==i+1){
-				asci += (hasil[j]-'0')*64;
+			if(asci==0){
+				s1[0] = ' ';
 			}
-			if(j==i+2){
-				asci += (hasil[j]-'0')*32;
+			else{
+				s1[0] = (char)asci;
 			}
-			if(j==i+3){
-				asci += (hasil[j]-'0')*16;
+			s1[1] = '\0';
+			s2[0] = '\0';
+			s2[1] = '\0';
+			if(i==0){
+				kompres = concat(s1,s2);
 			}
-			if(j==i+4){
-				asci += (hasil[j]-'0')*8;
+			else{
+				kompres = concat(kompres,s1);
 			}
-			if(j==i+5){
-				asci += (hasil[j]-'0')*4;
-			}
-			if(j==i+6){
-				asci += (hasil[j]-'0')*2;
-			}
-			if(j==i+7){
-				asci += (hasil[j]-'0')*1;
-			}
+			asci = 0;
+			i = i + 8;
 		}
-		s1[0] = (char)asci;
-		s1[1] = '\0';
-		s2[0] = '\0';
-		s2[1] = '\0';
-		if(i==0){
-			kompres = concat(s1,s2);
+		fprintf(CompressedFile,"%s",kompres);
+		while(i<strlen(hasil)){
+			s1[0] = hasil[i];
+			kompres = concat (kompres,s1);
+			if(strcmp(sisa,"NONE")==0){
+				sisa = concat(s1,s2);
+			}
+			else{
+				sisa = concat(sisa,s1);
+			}
+			i++;
 		}
-		else{
-			kompres = concat(kompres,s1);
-		}
-		asci = 0;
-		i = i + 8;
+		putc(00,CompressedFile);
+		fprintf(CompressedFile,"%s",sisa);
+		//printf("\n");
+		//printf("Output hasil compress             : %s",kompres);
+		//printf("\nKode - kode sisa yang tidak terkompres         : %s",sisa);
+		//printf("\n");
 	}
-	while(i<strlen(hasil)){
-		s1[0] = hasil[i];
-		kompres = concat (kompres,s1);
-		if(strcmp(sisa,"NONE")==0){
-			sisa = concat(s1,s2);
-		}
-		else{
-			sisa = concat(sisa,s1);
-		}
-		i++;
+	else{
+		fprintf(CompressedFile,"%s",hasil);
+		/*printf("\n");
+		printf("Output sama dengan kode huffman karena jumlah digit kode < 8");
+		printf("\nOutput hasil compress             : %s",hasil);
+		printf("\nKode - kode sisa yang tidak terkompres         : %s",hasil);
+		printf("\n");*/
 	}
-	fprintf(CompressedFile,"%s%s",kompres,sisa);
-	//printf("\n");
-	//printf("Output hasil compress             : %s",kompres);
-	//printf("\nKode - kode sisa yang tidak terkompres         : %s",sisa);
-	//printf("\n");
 }
 
 //Memeriksa apakah telah ada/tidak
@@ -413,6 +443,25 @@ void EncodeNode(BinTree node, FILE *fp){
         EncodeNode(node->left, fp);
         EncodeNode(node->right, fp);
     }
+}
+
+void ProcessCodeToOrigin(Code OriginalCode,char huruf){
+	STACK *BinStack;
+	BinStack = InitStack();
+	int tempInt;
+	Code tempChar;
+	
+	int decimal = (int) huruf;
+	
+	do{
+		PushStack(&BinStack, decimal%2 );
+		decimal=decimal/2;
+	}while(decimal!=0);
+	while(!IsEmpty(BinStack)){
+		tempInt = PopStack(&BinStack) + '0';
+		tempChar = (char) tempInt;
+		OriginalCode = concat(OriginalCode,tempChar);
+	}
 }
 
 BinTree ReadTree(FILE *reader){

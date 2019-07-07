@@ -1,1 +1,37 @@
-my man is manly
+ioawcndihosadasuidghlahsduiabndaslkdjwhaiuhcbaiwhdcnhqiwuhcdiquvwcqyuergcqnygqc yqyuqjdajksjjjdjajjshdjaksjjhxbkawjhdhusahkjdfjkhxkjcnvnvdsjdjfkwjehrkuiuds
+dfhskdhfksjdhf
+cxzkjjfjfjf
+sdfssdfssssdfsddssdfs
+      '\n'           3.87          11010
+       '/'           1.06        1111101
+       '*'           1.26         001110
+       ' '           7.30           1100
+       '-'           2.66          01010
+       'P'           1.06        1111100
+       'r'           5.25           0100
+       'o'           3.26          10100
+       'g'           0.95        1101100
+       'a'           5.80           0111
+       'm'           1.23         000111
+      '\n'           3.87          11010
+       '/'           1.06        1111101
+       '*'           1.26         001110
+       ' '           7.30           1100
+       '-'           2.66          01010
+       'P'           1.06        1111100
+       'r'           5.25           0100
+       'o'           3.26          10100
+       'g'           0.95        1101100
+       'a'           5.80           0111
+       'm'           1.23         000111
+      '\n'           3.87          11010
+       '/'           1.06        1111101
+       '*'           1.26         001110
+       ' '           7.30           1100
+       '-'           2.66          01010
+       'P'           1.06        1111100
+       'r'           5.25           0100
+       'o'           3.26          10100
+       'g'           0.95        1101100
+       'a'           5.80           0111
+       'm'           1.23         000111
