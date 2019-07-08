@@ -59,7 +59,7 @@ void PushStack(STACK **top, dataType data) {
 	p = MakeStack(data);
 	p->next = *top;
 	*top = p;
-	printf("%d pushed to stack\n", data); 
+	//printf("%d pushed to stack\n", data); 
 }
 
 /*Read and write stack========================================================*/

@@ -198,7 +198,7 @@ int main(){
 				Code OriginalCode = "";
 				char FileName[25];
 				unsigned char huruf;
-				printf("Masukan nama file: ");
+				printf("Masukan nama file: \n");
 				//scanf("%s",FileName);
 					
 				FILE *fp;
@@ -217,6 +217,7 @@ int main(){
 					fgetc(fp);
 					while((huruf = fgetc(fp)) != EOF && huruf != 00){
 						//printf("%c",huruf);
+						
 						int tempInt;
 						char tempChar[2];
 						
@@ -236,14 +237,41 @@ int main(){
 							tempChar[1] = '\0';
 							OriginalCode = concat(OriginalCode,tempChar);
 						}
+						
 						//ProcessCodeToOrigin(OriginalCode,huruf); // masih ada bug original file ga balik lagi kitu euy, bisa pake if, misal satu persatu aja ntarstacknya dipop perchar
 					}
-					printf("\n");
-					while((huruf = fgetc(fp)) != EOF){
-						printf("%c",huruf);
+					//printf("%s",OriginalCode);
+					//printf(" ");
+					while((huruf = fgetc(fp)) != 00){
+						char tempChar[2];
+						tempChar[0] = (char) huruf; //biner 0 di depan belum kebawa euy
+						tempChar[1] = '\0';
+						OriginalCode = concat(OriginalCode,tempChar);
+						//printf("%c",huruf);
 					}
+					//printf("%s",OriginalCode);
 				}
-				//printTree(theTree,0);
+				printTree(theTree,0);
+				printf("%s\n",OriginalCode);
+				
+				addressT PNav;
+				PNav = theTree;
+				for(i=0;i<=strlen(OriginalCode);i++){
+					if(Symbol(PNav) != 0){
+						printf("%c", Symbol(PNav));
+						PNav = theTree;
+						i = i - 1;
+					}
+					else{
+						if(OriginalCode[i] == '0'){
+							PNav = Left(PNav);
+						}
+						else{
+							PNav = Right(PNav);
+						}
+					}
+					//printf("%c", OriginalCode[i]);
+				}
 				system("pause");
 				fclose(fp);
 				break;
@@ -432,6 +460,7 @@ void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList){
 		}
 		putc(00,CompressedFile);
 		fprintf(CompressedFile,"%s",sisa);
+		putc(00,CompressedFile);
 		//printf("\n");
 		//printf("Output hasil compress             : %s",kompres);
 		//printf("\nKode - kode sisa yang tidak terkompres         : %s",sisa);
@@ -439,6 +468,7 @@ void CompressTheCode(FILE *OriginalFile, FILE *CompressedFile, List theList){
 	}
 	else{
 		fprintf(CompressedFile,"%s",hasil);
+		putc(00,CompressedFile);
 		/*printf("\n");
 		printf("Output sama dengan kode huffman karena jumlah digit kode < 8");
 		printf("\nOutput hasil compress             : %s",hasil);
